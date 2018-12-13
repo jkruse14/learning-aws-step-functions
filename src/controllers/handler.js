@@ -2,7 +2,7 @@
 const Promise = require('bluebird');
 
 module.exports.hello = (input, context) => {
-    const success = input.success === 'success';
+    const success = input.success === true;
     return Promise.resolve({ msg: 'Hello,', name: input.name, success });
 };
 
