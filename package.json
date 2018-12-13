@@ -1,0 +1,35 @@
+{
+  "name": "learning-aws-step-functions",
+  "version": "1.0.0",
+  "description": "Hello World for AWS Step Functions",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/serverless offline start --stage 'dev'",
+    "package": "rm -rf build && ./node_modules/.bin/serverless package --package './build/' --region 'us-west-2' --stage 'local'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkruse14/learning-aws-step-functions.git"
+  },
+  "keywords": [
+    "AWS",
+    "Step Functions",
+    "Serverless"
+  ],
+  "author": "Justin Kruse",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jkruse14/learning-aws-step-functions/issues"
+  },
+  "homepage": "https://github.com/jkruse14/learning-aws-step-functions#readme",
+  "dependencies": {
+    "serverless": "^1.32.0",
+    "serverless-http": "^1.8.0",
+    "serverless-offline": "^3.31.0",
+    "serverless-plugin-stage-variables": "^1.8.1",
+    "serverless-pseudo-parameters": "^2.2.0",
+    "serverless-step-functions": "^1.8.0",
+    "serverless-offline-step-functions": "file:../serverless-offline-step-functions"
+  }
+}

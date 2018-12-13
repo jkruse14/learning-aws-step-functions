@@ -1,0 +1,70 @@
+service: learning-aws-step-functions
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage}
+  versionFunctions: false
+
+plugins:
+  # Other plugins
+#   - serverless-pseudo-parameters
+  - serverless-plugin-stage-variables
+  - serverless-step-functions
+  - serverless-offline-step-functions
+  - serverless-offline
+
+functions:
+  hello:
+    handler: src/controllers/handler.hello
+    name: helloName
+  world:
+    handler: src/controllers/handler.world
+    name: world
+  fromUsername:
+    handler: src/controllers/handler.fromUsername
+    name: greeting
+
+stepFunctions:
+  stateMachines:
+    helloWorld:
+      events:
+        - http:
+            path: 'hello/{name}'
+            method: post
+      definition:
+        Comment: Hello world application for AWS step functions
+        StartAt: Hello
+        States:
+          Hello:
+            Type: Task
+            Resource: 'arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:hello'
+            Next: World
+          World:
+            Type: Task
+            Resource: 'arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:world'
+            Next: ChoiceState
+          ChoiceState:
+            Type: Choice
+            OutputPath: '$'
+            Choices:
+              - Variable: $.hello.name
+                StringEquals: 'Hadrian'
+                Next: WaitState
+              - Variable: $.hello.success
+                BooleanEquals: true
+                Next: SucceedState
+            Default: 'Fail'
+          WaitState:
+            Type: Wait
+            SecondsPath: $.waitSeconds
+            Next: Greeting
+          Greeting:
+            Type: Task
+            Resource: 'arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:fromUsername'
+            End: true
+          SucceedState:
+            Type: Success
+          Fail:
+            Type: Fail
+
