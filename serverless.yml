@@ -30,7 +30,7 @@ stepFunctions:
     helloWorld:
       events:
         - http:
-            path: 'hello/{name}'
+            path: 'hello'
             method: post
       definition:
         Comment: Hello world application for AWS step functions
@@ -64,7 +64,7 @@ stepFunctions:
             Resource: 'arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:fromUsername'
             End: true
           SucceedState:
-            Type: Success
+            Type: Succeed
           Fail:
             Type: Fail
 
